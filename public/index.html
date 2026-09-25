@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniSwap - UNNES Marketplace Final</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="navbar-wrapper">
+        <header class="main-header">
+            <div class="logo">
+                <div class="logo-icon">U</div>
+                <div>
+                    <h1>UniSwap</h1>
+                    <p>UNNES Marketplace</p>
+                </div>
+            </div>
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" placeholder="Cari barang, buku, elektronik, atau tukar tambah...">
+                    <button class="btn-search">Cari</button>
+                </div>
+                <div class="search-tags">
+                    <span class="tag">Lenovo Slim 3i</span>
+                    <span class="tag">Buku Kalkulus</span>
+                    <span class="tag">Meja Lipat</span>
+                    <span class="tag active-tag">Jaket UNNES</span>
+                </div>
+            </div>
+            <div class="user-actions">
+                <div class="action-item"><div class="action-icon"><i class="fas fa-shopping-cart"></i><span class="badge">3</span></div><span class="action-text">Keranjang</span></div>
+                <div class="action-item"><div class="action-icon"><i class="fas fa-bell"></i><span class="badge">5</span></div><span class="action-text">Notifikasi</span></div>
+                <div class="action-item"><div class="profile-pic"><img src="https://via.placeholder.com/40" alt="Profil"></div><span class="action-text">Profil</span></div>
+            </div>
+        </header>
+        <div class="sub-nav">
+            <div class="sub-nav-links">
+                <a href="#"><i class="fas fa-book text-green-light"></i> Buku & Diktat</a>
+                <a href="#"><i class="fas fa-laptop text-blue"></i> Elektronik</a>
+                <a href="#"><i class="fas fa-tshirt text-blue-light"></i> Fashion</a>
+                <a href="#"><i class="fas fa-backpack text-pink"></i> Tas & ATK</a>
+                <a href="#"><i class="fas fa-home text-orange"></i> Kos & Perabot</a>
+                <a href="#"><i class="fas fa-utensils text-purple"></i> Kuliner</a>
+            </div>
+            <button class="btn-nav-chat" onclick="switchTab('chat')"><i class="far fa-comment-dots"></i> Chat & Negosiasi</button>
+        </div>
+    </div>
+
+    <nav class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('beranda')"><i class="fas fa-home text-orange"></i> Beranda</button>
+        <button class="tab-btn" onclick="switchTab('detail')"><i class="fas fa-th-list text-purple"></i> Detail Produk</button>
+        <button class="tab-btn" onclick="switchTab('barter')"><i class="fas fa-sync text-blue"></i> Smart Barter</button>
+        <button class="tab-btn" onclick="switchTab('chat')"><i class="far fa-comment-dots text-purple"></i> Chat & Negosiasi</button>
+    </nav>
+
+    <main class="container">
+        
+        <!-- BERANDA -->
+        <section id="beranda" class="tab-content active">
+            <div class="hero-banner">
+                <div class="hero-badge"><i class="fas fa-shield-alt"></i> Platform Resmi Ekosistem Kampus UNNES</div>
+                <h2>Jual, Beli & Barter<br>Sesama Mahasiswa UNNES</h2>
+                <p>Platform marketplace & barter pertama khusus mahasiswa UNNES. Terverifikasi, aman, dan terpercaya.</p>
+                <div class="hero-btns">
+                    <button class="btn-white">Mulai Belanja</button>
+                    <button class="btn-outline-blue" onclick="switchTab('barter')"><i class="fas fa-sync"></i> Barter Sekarang</button>
+                </div>
+            </div>
+            <h3 class="section-title">Kategori</h3>
+            <div class="grid-8 category-grid">
+                <div class="category-card"><div class="icon-box bg-blue-light"><i class="fas fa-laptop text-blue"></i></div><h4>Elektronik</h4><p>240+ barang</p></div>
+                <div class="category-card"><div class="icon-box bg-green-light"><i class="fas fa-book text-green"></i></div><h4>Buku & Diktat</h4><p>580+ barang</p></div>
+                <div class="category-card"><div class="icon-box bg-blue-lighter"><i class="fas fa-tshirt text-blue"></i></div><h4>Fashion</h4><p>310+ barang</p></div>
+                <div class="category-card"><div class="icon-box bg-orange-light"><i class="fas fa-home text-orange"></i></div><h4>Perabot Kos</h4><p>190+ barang</p></div>
+                <div class="category-card"><div class="icon-box bg-pink-light"><i class="fas fa-backpack text-pink"></i></div><h4>Tas & ATK</h4><p>140+ barang</p></div>
+                <div class="category-card"><div class="icon-box bg-grey-light"><i class="fas fa-flask text-grey"></i></div><h4>Peralatan Lab</h4><p>95+ barang</p></div>
+                <div class="category-card"><div class="icon-box bg-purple-light"><i class="fas fa-utensils text-purple"></i></div><h4>Kuliner & Jasa</h4><p>75+ barang</p></div>
+                <div class="category-card" onclick="switchTab('barter')"><div class="icon-box bg-blue-light"><i class="fas fa-sync text-blue"></i></div><h4>Smart Barter</h4><p>430+ pasangan</p></div>
+            </div>
+            <div class="flash-barter-banner">
+                <div class="flash-info">
+                    <h3><i class="fas fa-bolt"></i> Flash Barter</h3><p>Berakhir dalam</p>
+                    <div class="timer"><span>02</span> : <span>14</span> : <span>38</span></div>
+                </div>
+                <div class="flash-items-wrapper">
+                    <div class="flash-item"><img src="https://via.placeholder.com/50" alt="Item"><div class="flash-text"><h4>Laptop ASUS Vi...</h4><p>Rp 4.200.000</p></div></div>
+                    <div class="flash-item"><img src="https://via.placeholder.com/50" alt="Item"><div class="flash-text"><h4>iPad Air 5th Gen...</h4><p>Rp 4.200.000</p></div></div>
+                    <div class="flash-item"><img src="https://via.placeholder.com/50" alt="Item"><div class="flash-text"><h4>Setrika Philips +...</h4><p>Rp 175.000</p></div></div>
+                </div>
+            </div>
+            <div class="section-header">
+                <h3 class="section-title">Baru Diposting</h3><a href="#" class="view-all">Lihat Semua &rarr;</a>
+            </div>
+            <div class="grid-5 product-grid">
+                <div class="product-card" onclick="switchTab('detail')">
+                    <div class="card-img-wrapper"><div class="badges-top"><span class="badge-grade bg-purple">Grade A</span></div><img src="https://via.placeholder.com/200?text=Kursi" alt="Kursi"></div>
+                    <div class="product-info"><h4>Kursi Gaming Lipat</h4><p class="price">Rp 320.000</p><div class="location-badge"><span class="pin"><i class="fas fa-map-marker-alt text-pink"></i> Gunungpati</span><span class="sold">4 terjual</span></div></div>
+                </div>
+                <div class="product-card" onclick="switchTab('detail')">
+                    <div class="card-img-wrapper"><div class="badges-top"><span class="badge-grade bg-purple">Grade A</span></div><img src="https://via.placeholder.com/200?text=Kalkulus" alt="Buku"></div>
+                    <div class="product-info"><h4>Kalkulus Purcell Ed.9</h4><p class="price">Rp 85.000</p><div class="location-badge"><span class="pin"><i class="fas fa-map-marker-alt text-pink"></i> Sekaran</span><span class="sold">31 terjual</span></div></div>
+                </div>
+                <div class="product-card" onclick="switchTab('detail')">
+                    <div class="card-img-wrapper"><div class="badges-top"><span class="badge-grade bg-orange">Grade B</span></div><img src="https://via.placeholder.com/200?text=Headphone" alt="Headphone"></div>
+                    <div class="product-info"><h4>Headphone JBL Tune...</h4><p class="price">Rp 380.000</p><div class="location-badge"><span class="pin"><i class="fas fa-map-marker-alt text-pink"></i> Ngaliyan</span><span class="sold">9 terjual</span></div></div>
+                </div>
+                <div class="product-card" onclick="switchTab('detail')">
+                    <div class="card-img-wrapper"><div class="badges-top"><span class="badge-grade bg-purple">Grade A</span></div><img src="https://via.placeholder.com/200?text=Meja" alt="Meja"></div>
+                    <div class="product-info"><h4>Meja Lipat Portable</h4><p class="price">Rp 250.000</p><div class="location-badge"><span class="pin"><i class="fas fa-map-marker-alt text-pink"></i> Sekaran</span><span class="sold">17 terjual</span></div></div>
+                </div>
+                <div class="product-card" onclick="switchTab('detail')">
+                    <div class="card-img-wrapper"><div class="badges-top"><span class="badge-grade bg-orange">Grade B</span><span class="badge-barter bg-blue"><i class="fas fa-sync"></i> Barter</span></div><img src="https://via.placeholder.com/200?text=Speaker" alt="Speaker"></div>
+                    <div class="product-info"><h4>Speaker Bluetooth JB...</h4><p class="price">Rp 220.000</p><div class="location-badge"><span class="pin"><i class="fas fa-map-marker-alt text-pink"></i> Tembalang</span><span class="sold">12 terjual</span></div></div>
+                </div>
+            </div>
+            <div class="safety-banner">
+                <div class="safety-left"><div class="shield-icon"><i class="fas fa-shield-alt text-blue"></i></div><div class="safety-text"><h3>Transaksi Aman Bersama UniSwap</h3><p>Semua pengguna terverifikasi sebagai mahasiswa UNNES aktif. Dilindungi garansi retur & refund, titik COD aman di kampus, dan sistem escrow.</p></div></div>
+                <div class="safety-right">
+                    <div class="safety-point"><i class="fas fa-check text-dark"></i><span>Terverifikasi Mahasiswa</span></div>
+                    <div class="safety-point"><i class="fas fa-map-marker-alt text-pink"></i><span>COD Aman Kampus</span></div>
+                    <div class="safety-point"><i class="fas fa-lock text-orange"></i><span>Escrow System</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DETAIL PRODUK -->
+        <section id="detail" class="tab-content">
+            <div class="breadcrumb">Beranda &rsaquo; Elektronik &rsaquo; Laptop & Komputer &rsaquo; <strong>Laptop Lenovo ThinkPad E14</strong></div>
+            <div class="detail-top">
+                <div class="detail-gallery">
+                    <div class="main-image-wrapper">
+                        <div class="image-badges"><span class="img-badge badge-grade-a"><i class="fas fa-medal"></i> Grade A — Seperti Baru</span><span class="img-badge badge-video"><i class="fas fa-play"></i> Video Inspeksi</span></div>
+                        <button class="heart-btn"><i class="far fa-heart"></i></button>
+                        <img src="https://via.placeholder.com/500x400?text=Laptop+Lenovo+ThinkPad" alt="Laptop" class="main-image">
+                    </div>
+                    <div class="thumbnail-list">
+                        <div class="thumb active-thumb"><img src="https://via.placeholder.com/80?text=1" alt="1"></div>
+                        <div class="thumb"><img src="https://via.placeholder.com/80?text=2" alt="2"></div>
+                        <div class="thumb"><img src="https://via.placeholder.com/80?text=3" alt="3"></div>
+                        <div class="thumb has-video"><img src="https://via.placeholder.com/80?text=Vid" alt="v"><i class="fas fa-play-circle"></i></div>
+                    </div>
+                    <button class="btn-wishlist-wide"><i class="far fa-heart"></i> Simpan ke Wishlist</button>
+                </div>
+                <div class="detail-info">
+                    <div class="status-tags">
+                        <span class="tag-barter"><i class="fas fa-sync"></i> Menerima Barter dengan: Meja Lipat / Setrika</span>
+                        <span class="tag-sell"><i class="fas fa-sack-dollar"></i> Bisa Dijual</span>
+                    </div>
+                    <h1 class="product-title">Laptop Lenovo ThinkPad E14 Gen 3 AMD Ryzen 5 — Mulus No Minus</h1>
+                    <div class="rating-row"><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span><span class="rating-text"><strong>4.8</strong> &nbsp;|&nbsp; 28 ulasan &nbsp;|&nbsp; 12 terjual</span></div>
+                    <div class="price-box">
+                        <div class="price-main">Rp 3.800.000</div>
+                        <div class="price-strike-group"><span class="price-strike">Rp 5.500.000</span><span class="discount-badge">-31%</span></div>
+                    </div>
+                    <div class="estimasi-box">
+                        <div class="estimasi-left"><i class="fas fa-lightbulb text-orange"></i> <span>Estimasi Nilai Barang:</span> <strong>Rp 3.600.000 - Rp 4.000.000</strong></div>
+                    </div>
+                    <div class="seller-card">
+                        <img src="https://via.placeholder.com/60?text=BS" alt="Budi" class="seller-img">
+                        <div class="seller-details">
+                            <h3>Budi Santoso</h3>
+                            <div class="verified-badge"><i class="fas fa-check"></i> Terverifikasi Mahasiswa UNNES</div>
+                            <div class="seller-stats"><span><i class="fas fa-star text-orange"></i> 4.9</span> &bull; <span>47 transaksi</span> &bull; <span class="text-grey">Teknik Elektro 2021</span></div>
+                        </div>
+                        <button class="btn-outline-small">Lihat Toko</button>
+                    </div>
+                    <div class="action-buttons-bottom">
+                        <button class="btn-chat-action" onclick="switchTab('chat')"><i class="far fa-comment-dots"></i> Chat Penjual</button>
+                        <button class="btn-barter-action" onclick="switchTab('barter')"><i class="fas fa-sync"></i> Ajukan Barter</button>
+                        <button class="btn-buy-action"><i class="fas fa-bolt"></i> Beli Sekarang</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="warranty-banner-full">
+                <i class="fas fa-shield-alt shield-large"></i>
+                <div class="warranty-text"><h4>Dilindungi Garansi Retur & Refund</h4><p>Barang tidak sesuai? Ajukan klaim dalam 2×24 jam. <a href="#">Pelajari selengkapnya</a></p></div>
+            </div>
+
+            <div class="detail-bottom">
+                <div class="detail-desc">
+                    <h2>Deskripsi Kondisi Fisik</h2>
+                    <div class="spec-grid">
+                        <div class="spec-item"><span class="spec-label">Kondisi</span><span class="spec-value">Bekas — Sangat Baik (Grade A)</span></div>
+                        <div class="spec-item"><span class="spec-label">Usia Pemakaian</span><span class="spec-value">±14 bulan</span></div>
+                        <div class="spec-item"><span class="spec-label">Baterai</span><span class="spec-value">Kapasitas 89% (sangat baik)</span></div>
+                        <div class="spec-item"><span class="spec-label">Layar</span><span class="spec-value">Tidak ada goresan, dead pixel 0</span></div>
+                    </div>
+                    <div class="desc-text-box">
+                        <p>Laptop ini saya gunakan untuk kuliah sehari-hari selama sekitar 14 bulan. Kondisi sangat terawat — selalu pakai sleeve bag, tidak pernah jatuh. Performa masih sangat kencang untuk multitasking, coding, dan desain ringan.</p>
+                        <p>Spesifikasi: AMD Ryzen 5 5600U &middot; RAM 16GB DDR4 &middot; SSD 512GB NVMe &middot; Layar 14" IPS FHD &middot; Windows 11 Home original.</p>
+                    </div>
+                </div>
+                <div class="detail-cod">
+                    <h2><i class="fas fa-map-marker-alt text-pink"></i> Titik COD Aman Kampus</h2>
+                    <p class="cod-subtitle">Lokasi bertemu yang direkomendasikan dan terverifikasi aman di lingkungan UNNES</p>
+                    <div class="cod-list">
+                        <div class="cod-item"><div class="cod-icon"><i class="fas fa-university text-grey"></i></div><div class="cod-info"><h4>Depan GSG UNNES</h4><p>0.3 km dari sini</p></div><i class="fas fa-check-circle text-green check-icon"></i></div>
+                        <div class="cod-item"><div class="cod-icon"><i class="fas fa-book text-blue"></i></div><div class="cod-info"><h4>Perpustakaan Pusat</h4><p>0.5 km dari sini</p></div><i class="fas fa-check-circle text-green check-icon"></i></div>
+                    </div>
+                    <button class="btn-choose-cod">Pilih Titik COD</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SMART BARTER -->
+        <section id="barter" class="tab-content">
+            <div class="barter-hero">
+                <div class="barter-hero-content">
+                    <div class="barter-hero-title"><div class="barter-icon-large"><i class="fas fa-sync"></i></div><div><h2>Smart Barter Matching</h2><p>Temukan mahasiswa UNNES yang butuh barangmu & punya barang yang kamu cari</p></div></div>
+                    <div class="barter-stats">
+                        <div class="stat-item"><h3>1.2k+</h3><p>Pengguna Aktif</p></div>
+                        <div class="stat-item"><h3>340+</h3><p>Barter Sukses</p></div>
+                        <div class="stat-item"><h3>< 2km</h3><p>Radius Rata-rata</p></div>
+                    </div>
+                </div>
+                <div class="barter-hero-bg-pattern"></div>
+            </div>
+
+            <div class="barter-input-area">
+                <div class="barter-box">
+                    <div class="box-header"><div class="step-circle">1</div><div><h3>Barang yang Saya Miliki</h3><p>Pilih dari etalase kamu</p></div></div>
+                    <div class="my-items-list">
+                        <div class="my-item-card selected" onclick="selectItem(this)">
+                            <div class="my-item-img"><span class="badge-grade bg-secondary-green">A</span><img src="https://via.placeholder.com/80?text=Laptop" alt="Laptop"></div>
+                            <div class="my-item-info"><h4>Laptop Lenovo ThinkPad...</h4><p>Elektronik &middot; Rp 3.800.000</p></div>
+                            <div class="check-circle"><i class="fas fa-check"></i></div>
+                        </div>
+                        <div class="my-item-card" onclick="selectItem(this)">
+                            <div class="my-item-img"><span class="badge-grade bg-orange">B</span><img src="https://via.placeholder.com/80?text=Buku" alt="Kalkulus"></div>
+                            <div class="my-item-info"><h4>Kalkulus Purcell Edisi 9</h4><p>Buku &middot; Rp 85.000</p></div>
+                            <div class="check-circle"><i class="fas fa-check"></i></div>
+                        </div>
+                    </div>
+                    <button class="btn-dashed">+ Tambah Barang ke Etalase</button>
+                </div>
+
+                <div class="barter-box">
+                    <div class="box-header"><div class="step-circle bg-orange text-white">2</div><div><h3>Barang yang Saya Cari</h3><p>Ketik atau filter kategori</p></div></div>
+                    <div class="search-input-large"><i class="fas fa-search"></i><input type="text" placeholder="iPad" value="iPad"></div>
+                    <div class="category-filters">
+                        <span class="filter-tag active" onclick="toggleFilter(this)">Semua</span>
+                        <span class="filter-tag" onclick="toggleFilter(this)">Elektronik</span>
+                        <span class="filter-tag" onclick="toggleFilter(this)">Buku & Diktat</span>
+                    </div>
+                    <div class="radius-slider-container">
+                        <div class="slider-header"><span>Radius pencarian</span><strong id="radiusValue">&le; 5 km dari kampus</strong></div>
+                        <input type="range" min="1" max="20" value="5" class="custom-slider" oninput="updateRadius(this.value)">
+                    </div>
+                    <button class="btn-find-match" onclick="findMatches()" id="btnFindMatch"><i class="fas fa-search"></i> Temukan Pasangan Barter</button>
+                </div>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-header">
+                    <div><h2>Hasil Pencocokan Terdekat</h2><p>Ditemukan dalam radius 5 km</p></div>
+                </div>
+                <div class="results-grid">
+                    <div class="match-card match-high">
+                        <div class="card-top-border border-green"></div>
+                        <div class="match-user">
+                            <div class="user-avatar"><img src="https://via.placeholder.com/60?text=RP" alt="Rizky"><span class="online-dot"></span></div>
+                            <div class="user-info-match"><h4>Rizky Pratama <span class="badge-unnes"><i class="fas fa-check"></i> UNNES</span></h4><p>Teknik Informatika 2020</p><div class="user-meta"><span><i class="fas fa-star text-orange"></i> 5.0</span> &bull; <span>0.4 km</span></div></div>
+                            <div class="match-score text-green">94%<span>cocok</span></div>
+                        </div>
+                        <div class="trade-box">
+                            <div class="trade-item"><span class="trade-label text-primary-green">Mereka punya &darr;</span><img src="https://via.placeholder.com/80?text=iPad" alt="iPad"><h5>iPad Pro M1</h5><p class="price-orange">Rp 10.500.000</p></div>
+                            <div class="trade-icon"><i class="fas fa-exchange-alt"></i></div>
+                            <div class="trade-item"><span class="trade-label text-orange">Mereka butuh &darr;</span><img src="https://via.placeholder.com/80?text=Laptop" alt="Laptop"><h5>Laptop Lenovo</h5><p class="price-grey">= barang kamu</p></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-outline-grey" onclick="switchTab('chat')"><i class="fas fa-comment-dots"></i> Buka Obrolan</button>
+                            <button class="btn-primary-green"><i class="fas fa-sync"></i> Kirim Tawaran Tukar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHAT & NEGOSIASI -->
+        <section id="chat" class="tab-content">
+            <div class="chat-layout">
+                <div class="chat-sidebar">
+                    <div class="chat-sidebar-header">
+                        <h2><i class="fas fa-comment-dots text-purple"></i> Chat & Negosiasi</h2>
+                        <div class="chat-search"><i class="fas fa-search"></i><input type="text" placeholder="Cari percakapan..."></div>
+                    </div>
+                    <div class="chat-list">
+                        <div class="chat-item active">
+                            <div class="chat-avatar"><img src="https://via.placeholder.com/50?text=RP" alt="Rizky"><span class="online-status"></span></div>
+                            <div class="chat-item-content">
+                                <div class="chat-item-top"><h4>Rizky Pratama</h4><span class="chat-time">14:32</span></div>
+                                <span class="chat-badge badge-barter-light">Pengajuan Barter</span>
+                                <div class="chat-item-bottom"><p class="chat-preview text-dark font-medium">Gimana kalo kita COD di depa...</p><span class="unread-count">2</span></div>
+                            </div>
+                        </div>
+                        <div class="chat-item">
+                            <div class="chat-avatar"><img src="https://via.placeholder.com/50?text=SD" alt="Sari"></div>
+                            <div class="chat-item-content">
+                                <div class="chat-item-top"><h4>Sari Dewi</h4><span class="chat-time">12:15</span></div>
+                                <span class="chat-badge badge-buy-light">Beli Langsung</span>
+                                <div class="chat-item-bottom"><p class="chat-preview">Oke kak, saya transfer sekarang ya</p></div>
+                            </div>
+                        </div>
+                        <div class="chat-item">
+                            <div class="chat-avatar"><img src="https://via.placeholder.com/50?text=AF" alt="Ahmad"><span class="online-status"></span></div>
+                            <div class="chat-item-content">
+                                <div class="chat-item-top"><h4>Ahmad Fauzi</h4><span class="chat-time">10:48</span></div>
+                                <span class="chat-badge badge-nego-light">Negosiasi Harga</span>
+                                <div class="chat-item-bottom"><p class="chat-preview text-dark font-medium">Bisa kurang 50rb nggak kak?</p><span class="unread-count">1</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-room">
+                    <div class="room-header">
+                        <div class="room-user-info">
+                            <div class="chat-avatar"><img src="https://via.placeholder.com/50?text=RP" alt="Rizky"><span class="online-status"></span></div>
+                            <div>
+                                <h3 class="room-name">Rizky Pratama <span class="verified-tag"><i class="fas fa-check"></i> Terverifikasi</span></h3>
+                                <p class="room-status"><span class="dot-green"></span> Online sekarang &middot; Teknik Informatika 2020</p>
+                            </div>
+                        </div>
+                        <div class="room-badge-top">Pengajuan Barter</div>
+                    </div>
+
+                    <div class="product-snippet">
+                        <img src="https://via.placeholder.com/60?text=Laptop" alt="Laptop">
+                        <div class="snippet-details">
+                            <h4>Laptop Lenovo ThinkPad E14</h4>
+                            <div class="snippet-trade-info">
+                                <div class="snippet-price">Rp 3.800.000</div><div class="snippet-arrows"><i class="fas fa-exchange-alt"></i></div>
+                                <div class="snippet-target">iPad Air 5th Gen</div><div class="snippet-diff"><i class="fas fa-lightbulb"></i> Selisih ~Rp 400.000</div>
+                            </div>
+                        </div>
+                        <button class="btn-snippet-barter"><i class="fas fa-sync"></i> Barter</button>
+                    </div>
+
+                    <div class="messages-area">
+                        <div class="message-bubble bubble-left">
+                            <p>Deal! Gimana kalo kita COD di depan GSG besok?</p>
+                            <span class="msg-time">14:32</span>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions-bar">
+                        <button class="action-btn btn-outline-green"><i class="fas fa-map-marker-alt text-pink"></i> Titik COD Aman</button>
+                        <button class="action-btn btn-outline-orange"><i class="fas fa-lock"></i> Kunci Kesepakatan</button>
+                    </div>
+                    <div class="quick-actions-bar no-border-top">
+                        <button class="action-btn btn-solid-green"><i class="fas fa-check"></i> Transaksi Selesai & Beri Ulasan</button>
+                    </div>
+                    <div class="chat-input-area">
+                        <button class="btn-attach"><i class="fas fa-plus"></i></button>
+                        <input type="text" placeholder="Ketik pesan atau negosiasi...">
+                        <button class="btn-send"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
