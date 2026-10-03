@@ -31,8 +31,12 @@
             </div>
 
             <div id="authGuest" class="user-actions">
-                <button class="btn-outline-blue" onclick="UI.openModal('modalLogin')">Masuk</button>
-                <button class="btn-white" onclick="UI.openModal('modalRegister')">Daftar</button>
+                <button onclick="UI.openModal('modalLogin')"
+                    style="padding:8px 15px; border-radius:8px; border:1px solid #ccc; cursor:pointer; background:white; color:var(--text-dark); font-weight:600;"><i
+                        class="fas fa-sign-in-alt text-blue"></i> Masuk</button>
+                <button onclick="UI.openModal('modalRegister')"
+                    style="padding:8px 15px; border-radius:8px; border:1px solid #ccc; cursor:pointer; background:#f4efe9; color:var(--text-dark); font-weight:600;"><i
+                        class="fas fa-user-plus text-orange"></i> Daftar</button>
             </div>
 
             <div id="authUser" class="user-actions" style="display: none;">
@@ -67,19 +71,26 @@
                 <a href="#" onclick="executeSearch('Tas & ATK')"><i class="fas fa-backpack text-pink"></i> Tas & ATK</a>
                 <a href="#" onclick="executeSearch('Perabot Kos')"><i class="fas fa-home text-orange"></i> Kos &
                     Perabot</a>
+                <a href="#" onclick="UI.switchTab('chat')"
+                    style="border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 5px;"><i
+                        class="far fa-comment-dots text-purple"></i> Chat & Negosiasi</a>
             </div>
-            <button class="btn-nav-chat" onclick="UI.switchTab('chat')"><i class="far fa-comment-dots"></i> Chat &
-                Negosiasi</button>
         </div>
     </div>
 
     <div id="toastContainer" class="toast-container"></div>
 
     <nav class="tab-nav">
+        <button class="tab-btn" onclick="UI.switchTab('admin')" id="tabAdminBtn"
+            style="display:none; background:#d35a5a; color:white; border-radius:10px;"><i class="fas fa-shield-alt"></i>
+            Admin Panel</button>
         <button class="tab-btn active" onclick="UI.switchTab('beranda')"><i class="fas fa-home text-orange"></i>
             Beranda</button>
-        <button class="tab-btn" onclick="UI.switchTab('barter')"><i class="fas fa-sync text-blue"></i> Smart
-            Barter</button>
+        <div class="hero-btns">
+            <button onclick="UI.switchTab('barter')"
+                style="padding:8px 15px; border-radius:8px; border:1px solid #ccc; cursor:pointer; background:white; color:var(--text-dark); font-weight:600; display:flex; align-items:center; gap:8px; margin:0 auto;"><i
+                    class="fas fa-sync text-blue"></i> Barter Sekarang</button>
+        </div>
         <button class="tab-btn" onclick="UI.switchTab('chat')"><i class="far fa-comment-dots text-purple"></i> Chat &
             Negosiasi</button>
         <button class="tab-btn" onclick="UI.switchTab('profil')" id="tabProfilBtn" style="display:none;"><i
@@ -321,6 +332,11 @@
                 <h2>Masuk RE:V</h2>
             </div>
             <form id="loginForm">
+                <div style="text-align:right; margin-bottom: 20px;">
+                    <a href="#" onclick="UI.closeModal('modalLogin'); UI.openModal('modalResetPass');"
+                        style="font-size:13px; color:#4fa5d6; text-decoration:none; font-weight:bold;">Lupa Kata
+                        Sandi?</a>
+                </div>
                 <div style="margin-bottom:15px; text-align:left;">
                     <label style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">NIM
                         Mahasiswa</label>
@@ -359,6 +375,12 @@
                     <label style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">NIM
                         Mahasiswa</label>
                     <input type="text" id="regNim" required
+                        style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none; font-size:14px;">
+                </div>
+                <div style="margin-bottom:15px; text-align:left;">
+                    <label style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">Email
+                        Mahasiswa</label>
+                    <input type="email" id="regEmail" placeholder="nama@students.unnes.ac.id" required
                         style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none; font-size:14px;">
                 </div>
                 <div style="margin-bottom:20px; text-align:left;">
@@ -465,6 +487,163 @@
             </div>
         </div>
     </div>
+
+    <!-- MODAL EDIT PRODUCT -->
+    <div id="modalEditProduct" class="modal">
+        <div class="modal-content modal-lg">
+            <span class="close-modal" onclick="UI.closeModal('modalEditProduct')">&times;</span>
+            <h2 style="margin-bottom:25px;"><i class="fas fa-edit text-blue"></i> Edit Barang</h2>
+            <form id="editProductForm">
+                <input type="hidden" id="editProdId"> <!-- Untuk menyimpan ID barang diam-diam -->
+
+                <div style="margin-bottom:15px; text-align:left;">
+                    <label style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">Ganti
+                        Foto (Opsional: Kosongi jika tidak ingin diganti)</label>
+                    <input type="file" id="editProdImage" accept="image/*"
+                        style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
+                </div>
+
+                <div style="display:flex; gap:15px; margin-bottom:15px;">
+                    <div style="flex:1; text-align:left;">
+                        <label
+                            style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">Nama
+                            Barang</label>
+                        <input type="text" id="editProdName" required
+                            style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none; font-size:14px;">
+                    </div>
+                    <div style="flex:1; text-align:left;">
+                        <label
+                            style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">Kategori</label>
+                        <select id="editProdCategory"
+                            style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none; font-size:14px;">
+                            <option value="Elektronik">Elektronik</option>
+                            <option value="Buku & Diktat">Buku & Diktat</option>
+                            <option value="Perabot Kos">Perabot Kos</option>
+                            <option value="Fashion">Fashion</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:15px; margin-bottom:15px;">
+                    <div style="flex:1; text-align:left;">
+                        <label
+                            style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">Harga
+                            Jual (Rp)</label>
+                        <input type="number" id="editProdPrice" required
+                            style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none; font-size:14px;">
+                    </div>
+                    <div style="flex:1; text-align:left;">
+                        <label
+                            style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">Kondisi
+                            (Grade)</label>
+                        <select id="editProdGrade"
+                            style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none; font-size:14px;">
+                            <option value="A">Grade A (Mulus/Baru)</option>
+                            <option value="B">Grade B (Bekas Wajar)</option>
+                            <option value="C">Grade C (Ada Minus)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-bottom:15px; text-align:left;">
+                    <label style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">Bisa
+                        Barter?</label>
+                    <select id="editProdBarter"
+                        style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none; font-size:14px;">
+                        <option value="1">Ya, Menerima Tukar Tambah</option>
+                        <option value="0">Tidak, Hanya Jual</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom:25px; text-align:left;">
+                    <label
+                        style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">Deskripsi
+                        Kondisi</label>
+                    <textarea id="editProdDesc" rows="3" required
+                        style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none; font-size:14px;"></textarea>
+                </div>
+
+                <button type="submit" id="btnEditSubmit"
+                    style="width:100%; background:#4fa5d6; color:white; padding:15px; border:none; border-radius:25px; font-weight:bold; cursor:pointer; font-size:15px;"><i
+                        class="fas fa-save"></i> Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL LUPA SANDI -->
+    <div id="modalResetPass" class="modal">
+        <div class="modal-content modal-sm">
+            <span class="close-modal" onclick="UI.closeModal('modalResetPass')">&times;</span>
+            <div style="text-align:center; margin-bottom:25px;">
+                <h2>Reset Sandi</h2>
+                <p style="font-size: 13px; color: gray; margin-top: 5px;">Masukkan NIM dan Email UNNES kamu untuk
+                    memverifikasi kepemilikan akun.</p>
+            </div>
+            <form id="resetPassForm">
+                <div style="margin-bottom:15px; text-align:left;">
+                    <label style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">NIM
+                        Mahasiswa</label>
+                    <input type="text" id="resetNim" required
+                        style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none;">
+                </div>
+                <div style="margin-bottom:15px; text-align:left;">
+                    <label style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">Email
+                        UNNES</label>
+                    <input type="email" id="resetEmail" required
+                        style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none;">
+                </div>
+                <div style="margin-bottom:20px; text-align:left;">
+                    <label style="font-size:13px; font-weight:bold; color:#444; margin-bottom:8px; display:block;">Kata
+                        Sandi Baru</label>
+                    <input type="password" id="resetNewPass" required
+                        style="width:100%; padding:14px; border-radius:12px; border:1.5px solid #ddd; outline:none;">
+                </div>
+                <button type="submit" id="btnResetSubmit"
+                    style="width:100%; background:#e57c58; color:white; padding:14px; border:none; border-radius:25px; font-weight:bold; cursor:pointer;">Simpan
+                    Sandi Baru</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL RATING PENYELESAIAN COD -->
+    <div id="modalRating" class="modal">
+        <div class="modal-content modal-sm text-center">
+            <span class="close-modal" onclick="UI.closeModal('modalRating')">&times;</span>
+            <h2 style="margin-bottom:15px;"><i class="fas fa-star text-orange"></i> Selesaikan Transaksi</h2>
+            <p class="text-grey mb-20">Apakah COD berhasil? Berikan penilaian untuk penjual ini.</p>
+            <form id="ratingForm">
+                <input type="hidden" id="ratingTxId">
+                <div style="margin-bottom:20px;">
+                    <select id="ratingScore" class="form-control"
+                        style="font-size: 18px; text-align: center; font-weight: bold;">
+                        <option value="5">⭐⭐⭐⭐⭐ (5/5) Sangat Bagus</option>
+                        <option value="4">⭐⭐⭐⭐ (4/5) Sesuai Deskripsi</option>
+                        <option value="3">⭐⭐⭐ (3/5) Biasa Saja</option>
+                        <option value="2">⭐⭐ (2/5) Kurang Sesuai</option>
+                        <option value="1">⭐ (1/5) Mengecewakan</option>
+                    </select>
+                </div>
+                <textarea id="ratingReview" class="form-control mb-20" rows="3"
+                    placeholder="Tulis ulasan singkat kondisi barang saat COD..."></textarea>
+                <button type="submit" class="btn-primary-green w-100" id="btnSubmitRating">Kirim Ulasan &
+                    Selesai</button>
+            </form>
+        </div>
+    </div>
+    <!-- MODAL ETALASE PUBLIK -->
+<div id="modalPublicStore" class="modal">
+    <div class="modal-content modal-lg">
+        <span class="close-modal" onclick="UI.closeModal('modalPublicStore')">&times;</span>
+        <div style="text-align:center; padding-bottom:20px; border-bottom:1px solid #eee; margin-bottom:20px;">
+            <img id="storeUserImg" src="https://via.placeholder.com/80" style="width:80px; height:80px; border-radius:50%; object-fit:cover; margin-bottom:10px;">
+            <h2 id="storeUserName">Nama Penjual</h2>
+            <p class="text-grey" id="storeUserFaculty"><i class="fas fa-graduation-cap"></i> Fakultas</p>
+        </div>
+        <h3 style="margin-bottom:15px;">Barang Dijual</h3>
+        <div id="storeGridContainer" class="grid-3" style="display:grid; gap:15px;"></div>
+    </div>
+</div>
 
     <script src="js/api.js"></script>
     <script src="js/ui.js"></script>

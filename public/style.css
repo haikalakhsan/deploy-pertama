@@ -301,3 +301,39 @@ body { background-color: var(--bg-beige); color: var(--text-dark); overflow-x: h
     box-shadow: 0 0 0 4px rgba(72,100,80,0.1); 
 }
 .input-with-icon .form-control::placeholder { color: #bbb; }
+
+/* ---- RESPONSIVITAS MOBILE & TABLET ---- */
+@media (max-width: 768px) {
+    /* Mengubah grid produk dari 5 kolom menjadi 2 kolom di HP */
+    .grid-5 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    /* Mengubah etalase menjadi 1 kolom */
+    .grid-3 { grid-template-columns: repeat(1, 1fr); }
+    
+    /* Mengubah layout menyamping menjadi bertumpuk (vertikal) */
+    .profil-layout, .chat-layout, .detail-top, .barter-input-area { 
+        flex-direction: column; 
+        height: auto; 
+    }
+    
+    /* Lebar penuh untuk sidebar */
+    .profil-sidebar, .chat-sidebar { width: 100%; }
+    .chat-sidebar { max-height: 40vh; margin-bottom: 20px; }
+    
+    /* Merapikan Header & Pencarian */
+    .main-header { flex-direction: column; gap: 15px; text-align: center; }
+    .search-container { max-width: 100%; width: 100%; margin: 10px 0; }
+    
+    /* Merapikan Menu Kategori (Sub-Nav) */
+    .sub-nav-links { flex-wrap: wrap; justify-content: center; gap: 15px; }
+    .sub-nav-links a[onclick*="chat"] { 
+        border-left: none !important; 
+        padding-left: 0 !important; 
+        margin-left: 0 !important; 
+        width: 100%; 
+        justify-content: center; 
+        margin-top: 10px;
+    }
+    .barter-hero-content { flex-direction: column; text-align: center; gap: 20px; }
+    .barter-hero-title { flex-direction: column; }
+    .barter-stats { justify-content: center; width: 100%; }
+}

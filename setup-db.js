@@ -23,13 +23,14 @@ async function setupDatabase() {
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(100) NOT NULL,
                 nim VARCHAR(20) UNIQUE NOT NULL,
+                email VARCHAR(100) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
+                role ENUM('student', 'admin') DEFAULT 'student', /* INI BARU: Penentu Admin */
                 faculty VARCHAR(50),
                 phone VARCHAR(20),
                 profile_image VARCHAR(255),
                 lat DECIMAL(10, 8) DEFAULT -7.05000000, 
                 lng DECIMAL(11, 8) DEFAULT 110.39300000,
-                is_verified BOOLEAN DEFAULT FALSE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
         `);
@@ -38,15 +39,15 @@ async function setupDatabase() {
         await db.query(`
             CREATE TABLE products (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                user_id INT,
-                name VARCHAR(150) NOT NULL,
-                category VARCHAR(50),
+                user_id INT NOT NULL,
+                name VARCHAR(255) NOT NULL,
+                category VARCHAR(100),
                 description TEXT,
-                price DECIMAL(10, 2),
+                price DECIMAL(10, 2) NOT NULL,
                 image VARCHAR(255),
-                is_barter_allowed BOOLEAN DEFAULT TRUE,
-                condition_grade ENUM('A', 'B', 'C') NOT NULL,
-                cod_points VARCHAR(255),
+                is_barter_allowed BOOLEAN DEFAULT FALSE,
+                condition_grade ENUM('A', 'B', 'C') DEFAULT 'B',
+                is_sold BOOLEAN DEFAULT FALSE, /* INI BARU: Penanda Barang Laku */
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             );
@@ -65,7 +66,7 @@ async function setupDatabase() {
             );
         `);
 
-        console.log("🔨 Membuat tabel 'transactions' (Barter/Jual-Beli)...");
+        console.log("🔨 Membuat tabel 'transactions'...");
         await db.query(`
             CREATE TABLE transactions (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -73,6 +74,8 @@ async function setupDatabase() {
                 seller_id INT NOT NULL,
                 product_id INT NOT NULL,
                 status ENUM('pending', 'accepted', 'completed', 'cancelled') DEFAULT 'pending',
+                rating INT DEFAULT NULL, /* INI BARU: Nilai 1-5 Bintang */
+                review TEXT,             /* INI BARU: Ulasan COD */
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (buyer_id) REFERENCES users(id) ON DELETE CASCADE,
                 FOREIGN KEY (seller_id) REFERENCES users(id) ON DELETE CASCADE,

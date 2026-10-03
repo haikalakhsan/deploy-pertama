@@ -1,38 +1,45 @@
 const UI = {
-    switchTab(id) { 
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active')); 
+    escapeHTML(str) {
+        if (!str) return '';
+        return str.toString().replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag]));
+    },
+    switchTab(id) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         const target = document.getElementById(id);
-        if(target) target.classList.add('active'); 
-        
+        if (target) target.classList.add('active');
+
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         const btn = document.querySelector(`.tab-btn[onclick*="${id}"]`);
-        if(btn) btn.classList.add('active');
-        window.scrollTo(0,0);
+        if (btn) btn.classList.add('active');
+        window.scrollTo(0, 0);
     },
     openModal(id) { document.getElementById(id).classList.add('show'); },
     closeModal(id) { document.getElementById(id).classList.remove('show'); },
     toggleDropdown(id) { const el = document.getElementById(id); el.style.display = el.style.display === 'none' ? 'block' : 'none'; },
-    showToast(msg) { 
-        const t = document.createElement('div'); t.className = 'toast'; t.innerHTML = `<i class="fas fa-info-circle" style="color:#4fa5d6; font-size:20px;"></i> <span>${msg}</span>`; 
-        document.getElementById('toastContainer').appendChild(t); 
-        setTimeout(()=> { t.style.opacity = '0'; setTimeout(()=>t.remove(), 300); }, 3000); 
+    showToast(msg) {
+        const t = document.createElement('div'); t.className = 'toast'; t.innerHTML = `<i class="fas fa-info-circle" style="color:#4fa5d6; font-size:20px;"></i> <span>${msg}</span>`;
+        document.getElementById('toastContainer').appendChild(t);
+        setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3000);
     },
-    renderProductCards(arr, isEtalase = false) { 
-        if(arr.length === 0) return `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#aaa;"><i class="fas fa-box-open fa-3x"></i><p style="margin-top:15px;">Belum ada barang.</p></div>`;
+    renderProductCards(arr, isEtalase = false) {
+        if (arr.length === 0) return `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#aaa;"><i class="fas fa-box-open fa-3x"></i><p style="margin-top:15px;">Belum ada barang.</p></div>`;
         return arr.map(p => {
             const priceFmt = new Intl.NumberFormat('id-ID').format(p.price);
             let imgSrc = p.image || `https://via.placeholder.com/200?text=${p.name.replace(/\s/g, '+')}`;
-            
-            if(isEtalase) {
+
+            if (isEtalase) {
                 return `
                 <div class="product-card">
                     <div class="card-img-wrapper">
                         <img src="${imgSrc}" alt="${p.name}">
                     </div>
                     <div class="product-info">
-                        <h4>${p.name}</h4>
+                        <h4>${this.escapeHTML(p.name)}</h4>${p.is_sold ? '<span style="background:#e57c58; color:white; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:bold;">TERJUAL</span>' : ''}                        
                         <p class="price">Rp ${priceFmt}</p>
-                        <button style="background:var(--c-red); color:white; border:none; padding:10px; border-radius:10px; cursor:pointer; width:100%; margin-top:10px;" onclick="handleDeleteProduct(${p.id})"><i class="fas fa-trash"></i> Hapus</button>
+                        <div style="display:flex; gap:8px; margin-top:10px;">
+                            <button style="flex:1; background:var(--c-blue); color:white; border:none; padding:10px; border-radius:10px; cursor:pointer;" onclick="window.openEditModal(${p.id})"><i class="fas fa-edit"></i> Edit</button>
+                            <button style="flex:1; background:var(--c-red); color:white; border:none; padding:10px; border-radius:10px; cursor:pointer;" onclick="handleDeleteProduct(${p.id})"><i class="fas fa-trash"></i> Hapus</button>
+                        </div>                    
                     </div>
                 </div>`;
             } else {
