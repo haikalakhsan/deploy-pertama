@@ -102,6 +102,7 @@ async function checkSession() {
             loadChatHistory('global');
         }
         renderMyEtalase();
+        window.fetchNotifications();
     } catch(e) {
         AppState.activeUser = null;
         document.getElementById('authGuest').style.display = 'flex';
@@ -359,4 +360,54 @@ window.handleDeleteProduct = function(prodId) {
             fetchProducts();
         }).catch(e => UI.showToast("Gagal menghapus", "error"));
     }
+}
+
+window.fetchNotifications = async function() {
+    if(!AppState.activeUser) return;
+    try {
+        const txs = await API.fetchIncomingTransactions();
+        const badge = document.getElementById('chatNotifBadge');
+        
+        // Nyalakan lonceng merah jika ada pesanan masuk
+        if (txs.length > 0) {
+            badge.style.display = 'inline-block';
+            badge.innerText = txs.length;
+        } else {
+            badge.style.display = 'none';
+        }
+
+        // Render ke dalam Modal
+        const area = document.getElementById('notifListArea');
+        if (txs.length === 0) {
+            area.innerHTML = '<p class="text-grey text-center" style="padding:20px;">Belum ada pesanan masuk.</p>';
+            return;
+        }
+
+        let html = '';
+        txs.forEach(t => {
+            html += `
+            <div style="background:#f8f9fa; padding:15px; border-radius:15px; margin-bottom:12px; border:1px solid #eee;">
+                <div style="display:flex; gap:12px; align-items:center; margin-bottom:15px;">
+                    <img src="${t.product_image || 'https://via.placeholder.com/50'}" style="width:45px; height:45px; border-radius:10px; object-fit:cover;">
+                    <div>
+                        <h4 style="font-size:14px; margin:0 0 4px 0; color:#333;">${t.product_name}</h4>
+                        <p style="font-size:12px; color:gray; margin:0;">Minat: <strong>${t.buyer_name}</strong></p>
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn-primary-green btn-sm" style="flex:1;" onclick="handleTx(${t.id}, 'accepted')"><i class="fas fa-check"></i> Terima</button>
+                    <button class="btn-danger btn-sm" style="flex:1; margin-top:0;" onclick="handleTx(${t.id}, 'cancelled')"><i class="fas fa-times"></i> Tolak</button>
+                </div>
+            </div>`;
+        });
+        area.innerHTML = html;
+    } catch(e) { console.error("Gagal load notif", e); }
+}
+
+window.handleTx = async function(id, status) {
+    try {
+        await API.updateTransactionStatus(id, status);
+        UI.showToast(status === 'accepted' ? 'Pesanan diterima! Lanjut Chat COD.' : 'Pesanan dibatalkan.', status === 'accepted' ? 'success' : 'info');
+        window.fetchNotifications(); // Refresh isi list
+    } catch(e) { UI.showToast("Gagal memproses transaksi", "error"); }
 }

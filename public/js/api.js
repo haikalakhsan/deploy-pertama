@@ -10,5 +10,7 @@ const API = {
     async deleteProduct(id) { await fetch(`${API_URL}/products/${id}`, { method: 'DELETE' }); },
     async findMatch(keyword, radius) { const r = await fetch(`${API_URL}/match?keyword=${keyword}&radius=${radius}`); return r.json(); },
     async fetchMessages(room) { const r = await fetch(`${API_URL}/messages/${room}`); return r.json(); },
-    async initiateTransaction(sellerId, productId) { const r = await fetch(`${API_URL}/transactions`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seller_id: sellerId, product_id: productId }) }); return r.json(); }
+    async initiateTransaction(sellerId, productId) { const r = await fetch(`${API_URL}/transactions`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seller_id: sellerId, product_id: productId }) }); return r.json(); },
+    async fetchIncomingTransactions() { const r = await fetch(`${API_URL}/transactions/incoming`); return r.json(); },
+    async updateTransactionStatus(id, status) { const r = await fetch(`${API_URL}/transactions/${id}/status`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) }); return r.json(); }  
 };

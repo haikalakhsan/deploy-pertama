@@ -167,6 +167,32 @@ app.post('/api/products', authenticateJWT, upload.single('image'), async (req, r
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+// Mengambil daftar pesanan masuk untuk penjual
+app.get('/api/transactions/incoming', authenticateJWT, async (req, res) => {
+    try {
+        const query = `
+            SELECT t.*, p.name as product_name, p.image as product_image, u.name as buyer_name 
+            FROM transactions t 
+            JOIN products p ON t.product_id = p.id 
+            JOIN users u ON t.buyer_id = u.id 
+            WHERE t.seller_id = ? AND t.status = 'pending'
+            ORDER BY t.created_at DESC
+        `;
+        const [rows] = await pool.query(query, [req.user.id]);
+        res.json(rows);
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// Mengubah status transaksi (Terima / Tolak)
+app.put('/api/transactions/:id/status', authenticateJWT, async (req, res) => {
+    const { status } = req.body; 
+    try {
+        await pool.query('UPDATE transactions SET status = ? WHERE id = ? AND seller_id = ?', 
+            [status, req.params.id, req.user.id]);
+        res.json({ message: `Transaksi ${status}` });
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 app.get('/api/match', authenticateJWT, async (req, res) => {
     const { keyword, radius } = req.query;
     try {
