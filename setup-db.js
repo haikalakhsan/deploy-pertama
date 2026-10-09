@@ -1,22 +1,13 @@
-require('dotenv').config();
 const mysql = require('mysql2/promise');
+require('dotenv').config();
 
-async function setupDatabase() {
-    console.log("⏳ Menyambungkan ke Aiven Cloud...");
+async function setupDB() {
     try {
-        const db = await mysql.createConnection({
-            host: process.env.DB_HOST, port: process.env.DB_PORT,
-            user: process.env.DB_USER, password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME, ssl: { rejectUnauthorized: false }
-        });
-        console.log("✅ Terhubung!");
+        const db = await mysql.createConnection(process.env.DATABASE_URL);
+        console.log("✅ Terhubung ke database Aiven.");
 
-        console.log("🧹 Membersihkan tabel lama (Drop Tables)...");
-        await db.query(`DROP TABLE IF EXISTS transactions;`);
-        await db.query(`DROP TABLE IF EXISTS messages;`);
-        await db.query(`DROP TABLE IF EXISTS products;`);
-        await db.query(`DROP TABLE IF EXISTS users;`);
-
+        await db.query("DROP TABLE IF EXISTS messages, transactions, products, users");
+        
         console.log("🔨 Membuat tabel 'users'...");
         await db.query(`
             CREATE TABLE users (
@@ -25,7 +16,7 @@ async function setupDatabase() {
                 nim VARCHAR(20) UNIQUE NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                role ENUM('student', 'admin') DEFAULT 'student', /* INI BARU: Penentu Admin */
+                role ENUM('student', 'admin') DEFAULT 'student',
                 faculty VARCHAR(50),
                 phone VARCHAR(20),
                 profile_image VARCHAR(255),
@@ -47,22 +38,9 @@ async function setupDatabase() {
                 image VARCHAR(255),
                 is_barter_allowed BOOLEAN DEFAULT FALSE,
                 condition_grade ENUM('A', 'B', 'C') DEFAULT 'B',
-                is_sold BOOLEAN DEFAULT FALSE, /* INI BARU: Penanda Barang Laku */
+                is_sold BOOLEAN DEFAULT FALSE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-            );
-        `);
-
-        console.log("🔨 Membuat tabel 'messages' (Chat History)...");
-        await db.query(`
-            CREATE TABLE messages (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                room VARCHAR(50) NOT NULL,
-                sender_id INT NOT NULL,
-                sender_name VARCHAR(100) NOT NULL,
-                message TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
             );
         `);
 
@@ -74,8 +52,8 @@ async function setupDatabase() {
                 seller_id INT NOT NULL,
                 product_id INT NOT NULL,
                 status ENUM('pending', 'accepted', 'completed', 'cancelled') DEFAULT 'pending',
-                rating INT DEFAULT NULL, /* INI BARU: Nilai 1-5 Bintang */
-                review TEXT,             /* INI BARU: Ulasan COD */
+                rating INT DEFAULT NULL,
+                review TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (buyer_id) REFERENCES users(id) ON DELETE CASCADE,
                 FOREIGN KEY (seller_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -83,8 +61,24 @@ async function setupDatabase() {
             );
         `);
 
-        console.log("🎉 Database komplit (TANPA DATA DUMMY)! Jalankan: npm start");
-        db.end();
-    } catch (error) { console.error("❌ GAGAL:", error.message); }
+        console.log("🔨 Membuat tabel 'messages'...");
+        await db.query(`
+            CREATE TABLE messages (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                room VARCHAR(100) NOT NULL,
+                sender_id INT NOT NULL,
+                sender_name VARCHAR(100) NOT NULL,
+                message TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
+            );
+        `);
+
+        console.log("🎉 Semua tabel berhasil direset dan dibuat dengan struktur terbaru!");
+        process.exit(0);
+    } catch (err) {
+        console.error("❌ Gagal setup database:", err);
+        process.exit(1);
+    }
 }
-setupDatabase();
+setupDB();
