@@ -7,7 +7,6 @@
     <title>RE:V - UNNES Marketplace</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
@@ -210,16 +209,6 @@
                             <p>Temukan mahasiswa UNNES yang butuh barangmu & punya barang yang kamu cari</p>
                         </div>
                     </div>
-                    <div class="barter-stats">
-                        <div class="stat-item">
-                            <h3>1.2k+</h3>
-                            <p>Pengguna Aktif</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3>340+</h3>
-                            <p>Barter Sukses</p>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -249,12 +238,6 @@
                     </div>
                     <div class="search-input-large"><i class="fas fa-search"></i><input type="text" id="barterKeyword"
                             placeholder="iPad"></div>
-                    <div class="radius-slider-container">
-                        <div class="slider-header"><span>Radius pencarian</span><strong>&le; <span
-                                    id="radiusLabel">5</span> km dari kampus</strong></div>
-                        <input type="range" min="1" max="20" value="5" class="custom-slider" id="radiusInput"
-                            oninput="document.getElementById('radiusLabel').innerText = this.value">
-                    </div>
                     <button class="btn-find-match" onclick="findBarterMatch()"><i class="fas fa-search"></i> Temukan
                         Pasangan</button>
                     <div id="barterResults" style="margin-top: 20px; display:none;"></div>
@@ -271,7 +254,7 @@
                     </div>
                     <div class="chat-list" id="chatListContainer">
                         <div class="chat-item active"
-                            onclick="AppState.currentRoom='global'; loadChatHistory('global'); UI.showToast('Masuk Forum Global');">
+                            data-chat="global" onclick="openGlobalChat(); loadChatHistory('global'); UI.showToast('Masuk Forum Global');">
                             <div class="chat-avatar"><img src="https://via.placeholder.com/50?text=G"></div>
                             <div class="chat-item-content">
                                 <div class="chat-item-top">

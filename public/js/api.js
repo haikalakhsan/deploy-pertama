@@ -1,25 +1,47 @@
 const API_URL = '/api';
 
+async function request(path, { method = 'GET', body, form } = {}) {
+    const opts = { method, credentials: 'same-origin', headers: {} };
+    if (form) {
+        opts.body = form;
+    } else if (body !== undefined) {
+        opts.headers['Content-Type'] = 'application/json';
+        opts.body = JSON.stringify(body);
+    }
+    const r = await fetch(API_URL + path, opts);
+    let data = null;
+    try { data = await r.json(); } catch (e) { /* respons bukan JSON */ }
+    if (!r.ok) throw new Error((data && data.error) || `Permintaan gagal (${r.status})`);
+    return data;
+}
+
 const API = {
-    async register(name, nim, email, password, lat, lng) { const r = await fetch(`${API_URL}/register`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, nim, email, password, lat, lng }) }); const d = await r.json(); if (!r.ok) throw new Error(d.error); return d; },
-    async login(nim, password) { const r = await fetch(`${API_URL}/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nim, password }) }); const d = await r.json(); if (!r.ok) throw new Error(d.error); return d; },
-    async logout() { await fetch(`${API_URL}/logout`, { method: 'POST' }); },
-    async checkSession() { const r = await fetch(`${API_URL}/me`); if (!r.ok) throw new Error("Not Logged In"); return r.json(); },
-    async resetPassword(nim, email, newPassword) { const r = await fetch(`${API_URL}/reset-password`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nim, email, newPassword }) }); const d = await r.json(); if (!r.ok) throw new Error(d.error); return d; },
-    
-    async fetchProducts(search = '', category = '') { const r = await fetch(`${API_URL}/products?search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}`); return r.json(); },
-    async addProduct(fd) { const r = await fetch(`${API_URL}/products`, { method: 'POST', body: fd }); const d = await r.json(); if (!r.ok) throw new Error(d.error); return d; },
-    async updateProduct(id, fd) { const r = await fetch(`${API_URL}/products/${id}`, { method: 'PUT', body: fd }); const d = await r.json(); if (!r.ok) throw new Error(d.error); return d; },
-    async deleteProduct(id) { const r = await fetch(`${API_URL}/products/${id}`, { method: 'DELETE' }); const d = await r.json(); if (!r.ok) throw new Error(d.error); return d; },
-    async markAsSold(id) { const r = await fetch(`${API_URL}/products/${id}/sold`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }}); return r.json(); },
-    async fetchPublicStore(userId) { const r = await fetch(`${API_URL}/store/${userId}`); return r.json(); },
-    
-    async createTransaction(sellerId, productId) { const r = await fetch(`${API_URL}/transactions`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seller_id: sellerId, product_id: productId }) }); const d = await r.json(); if (!r.ok) throw new Error(d.error); return d; },
-    async fetchIncomingTransactions() { const r = await fetch(`${API_URL}/transactions/incoming`); return r.json(); },
-    async updateTransactionStatus(id, status) { const r = await fetch(`${API_URL}/transactions/${id}/status`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) }); return r.json(); },
-    async completeTransaction(id, rating, review) { const r = await fetch(`${API_URL}/transactions/${id}/complete`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rating, review }) }); return r.json(); },
-    
-    async fetchMessages(room) { const r = await fetch(`${API_URL}/messages/${room}`); return r.json(); },
-    async sendMessage(room, message, senderName) { const r = await fetch(`${API_URL}/messages`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ room, message, sender_name: senderName }) }); return r.json(); },
-    async checkChatTransaction(partnerId) { const r = await fetch(`${API_URL}/chat/${partnerId}/transaction`); return r.json(); }
+    // Auth
+    register: (name, nim, email, password, lat, lng) => request('/register', { method: 'POST', body: { name, nim, email, password, lat, lng } }),
+    login: (nim, password) => request('/login', { method: 'POST', body: { nim, password } }),
+    logout: () => request('/logout', { method: 'POST' }),
+    checkSession: () => request('/me'),
+    resetPassword: (nim, email, newPassword) => request('/reset-password', { method: 'POST', body: { nim, email, newPassword } }),
+    updateProfile: (fd) => request('/profile', { method: 'PUT', form: fd }),
+
+    // Produk
+    fetchProducts: (search = '', category = '') => request(`/products?search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}`),
+    fetchMyProducts: () => request('/my-products'),
+    addProduct: (fd) => request('/products', { method: 'POST', form: fd }),
+    updateProduct: (id, fd) => request(`/products/${id}`, { method: 'PUT', form: fd }),
+    deleteProduct: (id) => request(`/products/${id}`, { method: 'DELETE' }),
+    markAsSold: (id) => request(`/products/${id}/sold`, { method: 'PUT' }),
+    fetchPublicStore: (userId) => request(`/store/${userId}`),
+    fetchBarter: (keyword) => request(`/barter?keyword=${encodeURIComponent(keyword)}`),
+
+    // Transaksi
+    createTransaction: (productId) => request('/transactions', { method: 'POST', body: { product_id: productId } }),
+    fetchIncomingTransactions: () => request('/transactions/incoming'),
+    updateTransactionStatus: (id, status) => request(`/transactions/${id}/status`, { method: 'PUT', body: { status } }),
+    completeTransaction: (id, rating, review) => request(`/transactions/${id}/complete`, { method: 'PUT', body: { rating, review } }),
+
+    // Chat
+    fetchMessages: (room, after = 0) => request(`/messages/${encodeURIComponent(room)}?after=${after}`),
+    sendMessage: (room, message) => request('/messages', { method: 'POST', body: { room, message } }),
+    checkChatTransaction: (partnerId) => request(`/chat/${partnerId}/transaction`)
 };
